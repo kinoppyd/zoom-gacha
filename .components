@@ -1,0 +1,9 @@
+---
+:orm: activerecord
+:test: rspec
+:mock: none
+:script: none
+:renderer: none
+:stylesheet: sass
+:namespace: ZoomGacha
+:migration_format: number
