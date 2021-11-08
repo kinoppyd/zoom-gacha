@@ -27,9 +27,18 @@
 #
 Padrino.configure_apps do
   # enable :sessions
-  set :session_secret, 'f331789d7f5edb2dff4ef4be7e396403e913c3e9da6d6eef9697f02b36eb052e'
   set :protection, :except => :path_traversal
   set :protect_from_csrf, true
+
+  if RACK_ENV == 'production'
+    disable :reload
+    disable :reload_templates
+    set :session_secret, ENV['SESSION_SECRET']
+  else
+    enable :reload
+    enable :reload_templates
+    set :session_secret, 'f331789d7f5edb2dff4ef4be7e396403e913c3e9da6d6eef9697f02b36eb052e'
+  end
 end
 
 # Mounts the core application for this project
