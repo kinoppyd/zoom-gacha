@@ -1,0 +1,29 @@
+{
+  "name": "zoom-gacha",
+  "description": "zoom de gacha mawashi tai!",
+  "repository": "https://github.com/kinoppyd/zoom-gacha",
+  "success_url": "/",
+  "env": {
+    "SESSION_SECRET": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "standard-1x"
+    }
+  },
+  "image": "heroku/ruby",
+  "addons": [
+    {
+      "plan": "heroku-postgresql"
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ]
+}
