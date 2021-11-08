@@ -6,6 +6,10 @@ module ZoomGacha
     register Padrino::Helpers
     enable :sessions
 
+    use Rack::Auth::Basic do |user, pass|
+      user == ENV['BASIC_USER'] && pass == ENV['BASIC_PASS']
+    end
+
     get "/" do
       @gachas = Gacha.all.order(created_at: :desc).limit(20)
       @csrf_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
