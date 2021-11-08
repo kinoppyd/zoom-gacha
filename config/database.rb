@@ -13,35 +13,29 @@
 #     :socket    => '/tmp/mysql.sock'
 #   }
 #
-ActiveRecord::Base.configurations[:development] = {
-  :adapter   => 'postgresql',
-  :database  => 'zoom_gacha_development',
-  :username  => 'root',
-  :password  => '',
-  :host      => 'localhost',
-  :port      => 5432
 
+db_config = {
+  development: {
+    :adapter   => 'postgresql',
+    :database  => 'zoom_gacha_development',
+    :username  => 'postgres',
+    :password  => '',
+    :host      => 'localhost',
+    :port      => 5432
+  },
+  test: {
+    :adapter   => 'postgresql',
+    :database  => 'zoom_gacha_test',
+    :username  => 'postgres',
+    :password  => '',
+    :host      => 'localhost',
+    :port      => 5432
+  }
 }
 
-ActiveRecord::Base.configurations[:production] = {
-  :adapter   => 'postgresql',
-  :database  => 'zoom_gacha_production',
-  :username  => 'root',
-  :password  => '',
-  :host      => 'localhost',
-  :port      => 5432
+db_config[:production] = ENV['DATABASE_URL'] if ENV['DATABASE_URL']
+ActiveRecord::Base.configurations = db_config
 
-}
-
-ActiveRecord::Base.configurations[:test] = {
-  :adapter   => 'postgresql',
-  :database  => 'zoom_gacha_test',
-  :username  => 'root',
-  :password  => '',
-  :host      => 'localhost',
-  :port      => 5432
-
-}
 
 # Setup our logger
 ActiveRecord::Base.logger = logger
