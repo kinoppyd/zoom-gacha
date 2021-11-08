@@ -6,6 +6,26 @@ module ZoomGacha
     register Padrino::Helpers
     enable :sessions
 
+    get "/" do
+      @gachas = Gacha.all.order(created_at: :desc).limit(20)
+      @csrf_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
+      render 'index'
+    end
+
+    post "/gacha" do
+      begin
+        u = User.first
+        zoom = ZoomClient.new
+        name = zoom.meeting_name(params["meeting_id"])
+        gacha = HeadlessGachaClient.new.gacha(zoom.users_list(params["meeting_id"])).env.url.to_s
+        Gacha.create!(user: u, title: name, result: gacha)
+        redirect_to '/'
+      rescue Zoom::Error => zoom_e
+        @error = zoom_e.message
+        render 'errors/zoom_error'
+      end
+    end
+
     ##
     # Caching support.
     #

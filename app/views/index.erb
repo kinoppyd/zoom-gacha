@@ -1,0 +1,29 @@
+<h1>Zoom ガチャ奴</h1>
+
+<h2>meeting idで回す</h2>
+<div>
+  <form action="/gacha" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= @csrf_token %>" />
+    <label for="meeting_id">ミーティングID</label>
+    <input type="text" name="meeting_id" required>
+    <input type="submit">
+  </form>
+</div>
+
+<h2>回した履歴</h2>
+<div>
+  <table>
+    <tr>
+      <th>title</th>
+      <th>url</th>
+      <th>created at</th>
+    </tr>
+    <% @gachas.each do |gacha| %>
+      <tr>
+        <td><%= gacha.title %></td>
+        <td><a href="<%= gacha.result %>" target="_blank"><%= gacha.result %></a></td>
+        <td><%= gacha.created_at.localtime("+09:00") %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
