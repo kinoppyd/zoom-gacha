@@ -39,3 +39,4 @@ gem 'padrino', '0.15.1'
 gem "zoom_rb"
 gem "faraday"
 gem "faraday_middleware"
+gem 'omniauth-google-oauth2'
