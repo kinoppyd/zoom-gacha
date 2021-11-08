@@ -35,3 +35,7 @@ gem 'padrino', '0.15.1'
 # %w(core support gen helpers cache mailer admin).each do |g|
 #   gem 'padrino-' + g, '0.15.1'
 # end
+
+gem "zoom_rb"
+gem "faraday"
+gem "faraday_middleware"
