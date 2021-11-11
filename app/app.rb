@@ -20,8 +20,9 @@ module ZoomGacha
       begin
         u = User.first
         zoom = ZoomClient.new
-        name = zoom.meeting_name(params["meeting_id"])
-        gacha = HeadlessGachaClient.new.gacha(zoom.users_list(params["meeting_id"])).env.url.to_s
+        meeting_id = params["meeting_id"].gsub(/ /, "")
+        name = zoom.meeting_name(meeting_id)
+        gacha = HeadlessGachaClient.new.gacha(zoom.users_list(meeting_id)).env.url.to_s
         Gacha.create!(user: u, title: name, result: gacha)
         redirect_to '/'
       rescue Zoom::Error => zoom_e
