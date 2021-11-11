@@ -21,13 +21,22 @@ module ZoomGacha
     OmniAuth.config.allowed_request_methods = %i[get]
 
     get "/" do
-      @gachas = Gacha.all.order(created_at: :desc).limit(20)
-      @csrf_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
-      render 'index'
+      if session[:email]
+        @gachas = Gacha.all.order(created_at: :desc).limit(20)
+        @csrf_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
+        render 'index'
+      else
+        render 'login'
+      end
     end
 
     get '/login' do
       redirect_to '/auth/google_oauth2'
+    end
+
+    get '/logout' do
+      session[:email] = nil
+      redirect_to '/'
     end
 
     post "/gacha" do
