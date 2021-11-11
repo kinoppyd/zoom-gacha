@@ -6,9 +6,19 @@ module ZoomGacha
     register Padrino::Helpers
     enable :sessions
 
-    use Rack::Auth::Basic do |user, pass|
-      user == ENV['BASIC_USER'] && pass == ENV['BASIC_PASS']
+    use OmniAuth::Builder do
+      provider :google_oauth2,
+        ENV['GOOGLE_CLIENT_ID'],
+        ENV['GOOGLE_CLIENT_SECRET'],
+        {
+          scope: 'userinfo.email, userinfo.profile',
+          prompt: 'select_account',
+          image_aspect_ratio: 'square',
+          image_size: 50,
+          callback_path: '/auth/callback'
+        }
     end
+    OmniAuth.config.allowed_request_methods = %i[get]
 
     get "/" do
       @gachas = Gacha.all.order(created_at: :desc).limit(20)
@@ -16,11 +26,20 @@ module ZoomGacha
       render 'index'
     end
 
+    get '/login' do
+      redirect_to '/auth/google_oauth2'
+    end
+
     post "/gacha" do
       begin
+        u = User.find_by(email: session[:email])
+      rescue StandardError
         u = User.first
+      end
+
+      begin
         zoom = ZoomClient.new
-        meeting_id = params["meeting_id"].gsub(/ /, "")
+        meeting_id = params["meeting_id"].gsub(/ /, "").gsub(/-/, "")
         name = zoom.meeting_name(meeting_id)
         gacha = HeadlessGachaClient.new.gacha(zoom.users_list(meeting_id)).env.url.to_s
         Gacha.create!(user: u, title: name, result: gacha)
@@ -28,6 +47,19 @@ module ZoomGacha
       rescue Zoom::Error => zoom_e
         @error = zoom_e.message
         render 'errors/zoom_error'
+      end
+    end
+
+    %w(get post).each do |method|
+      send(method, "/auth/callback") do
+        auth_hash = env['omniauth.auth']
+        if auth_hash["extra"]["id_info"]["email"].end_with?("@smarthr.co.jp")
+          @user = User.find_or_create_from_auth_hash(auth_hash)
+          session[:email] = @user.email
+          redirect_to '/'
+        else
+          redirect_to '/'
+        end
       end
     end
 
