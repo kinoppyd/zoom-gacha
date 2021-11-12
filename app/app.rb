@@ -21,8 +21,9 @@ module ZoomGacha
     OmniAuth.config.allowed_request_methods = %i[get]
 
     get "/" do
-      if session[:email]
-        @gachas = Gacha.all.order(created_at: :desc).limit(20)
+      if Padrino.env == :development || session[:email]
+        @email = session[:email] || 'test'
+        @gachas = Gacha.all.order(created_at: :desc).includes(:user).limit(20)
         @csrf_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
         render 'index'
       else

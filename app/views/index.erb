@@ -1,4 +1,7 @@
-<h1>Zoom ガチャ奴</h1>
+<div class="header">
+  <h1>Zoom ガチャ奴</h1>
+  <div><%= @email %></div>
+</div>
 
 <h2>meeting idで回す</h2>
 <div>
@@ -15,14 +18,14 @@
   <table>
     <tr>
       <th>title</th>
-      <th>url</th>
+      <th>email</th>
       <th>created at</th>
     </tr>
     <% @gachas.each do |gacha| %>
       <tr>
-        <td><%= gacha.title %></td>
-        <td><a href="<%= gacha.result %>" target="_blank"><%= gacha.result %></a></td>
-        <td><%= gacha.created_at.localtime("+09:00") %></td>
+        <td><a href="<%= gacha.result %>" target="_blank"><%= gacha.title %></a></td>
+        <td><%= gacha.user.email %></td>
+        <td><%= gacha.created_at.localtime("+09:00").strftime("%F %R") %></td>
       </tr>
     <% end %>
   </table>
