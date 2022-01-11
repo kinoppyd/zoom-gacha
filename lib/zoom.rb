@@ -14,8 +14,29 @@ class ZoomClient
     @client.meeting_get(meeting_id: meeting_id)["topic"]
   end
 
+  # ZoomのAPIから、ミーティングに参加しているユーザーの一覧を取得し、そのユニーク値をかえす
+  #
+  # APIの仕様上、leaveしたユーザーも結果として返ってくるため、一度leaveして再度joinしたユーザーが重複する。
+  # そのため、IDでユニークを保証する。
+  #
+  # IDに関して、zoomにログインせずに参加しているユーザーはIDの項目が用意されない。
+  # そのため、IDがないユーザーに関してはユーザー名でユニークを取る。
+  #
+  # また、一度leaveしたユーザーはleave_reasonがセットされるので、leave_reasonがあるユーザーは事前に除外する。
+  #
+  # See also https://marketplace.zoom.us/docs/api-reference/zoom-api/dashboards/dashboardmeetingparticipants
+  #
   def users_list(meeting_id)
-    @client.dashboard_meeting_participants(meeting_id: meeting_id)["participants"].map { |h| h["user_name"] }
+    users = @client.dashboard_meeting_participants(meeting_id: meeting_id)["participants"]
+    pp users
+    current_users = users.reject { |user| user["leave_reason"] }
+    pp current_users
+    users_with_id, users_without_id = current_users.partition { |user| user["id"] }
+
+    uniq_users_with_id = users_with_id.uniq { |user| user["id"] }
+    uniq_users_without_id = users_without_id.uniq { |user| user["user_name"] }
+
+    (uniq_users_with_id + uniq_users_without_id).map { |user| user["user_name"] }
   end
 end
 
