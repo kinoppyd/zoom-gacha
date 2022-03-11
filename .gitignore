@@ -8,3 +8,4 @@ db/*.db
 .*.sw*
 
 node_modules/
+public/stylesheets/tailwind.css
