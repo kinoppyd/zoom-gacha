@@ -1,0 +1,8 @@
+{
+  "name": "zoom-gacha",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "ssh://git@github.com/kinoppyd/zoom-gacha.git",
+  "author": "kinoppyd <ppyd@kinoppyd.dev>",
+  "license": "MIT"
+}
