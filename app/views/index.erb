@@ -1,32 +1,53 @@
-<div class="header">
-  <h1>Zoom ガチャ奴</h1>
-  <div><%= @email %></div>
+<div class="w-full pt-8 bg-gray-800">
+  <h1 class="text-center font-bold text-gray-100 text-6xl">Zoom ガチャ奴</h1>
+  <div class="text-gray-100 text-sm p-2 absolute right-0 top-0"><%= @email %></div>
+  <div class="mt-8 p-2">
+    <h2 class="text-gray-100 text-center pb-2">meeting idで回す</h2>
+    <form action="/gacha" method="post" class="flex h-8 w-1/2 mx-auto">
+      <input type="hidden" name="authenticity_token" value="<%= @csrf_token %>" />
+      <input type="text" name="meeting_id" required class="block w-full mr-2 px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Meeting ID">
+      <input type="submit" value="ガチャを回す" class=" px-6 py-2.5 bg-blue-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+    </form>
+  </div>
 </div>
 
-<h2>meeting idで回す</h2>
-<div>
-  <form action="/gacha" method="post">
-    <input type="hidden" name="authenticity_token" value="<%= @csrf_token %>" />
-    <label for="meeting_id">ミーティングID</label>
-    <input type="text" name="meeting_id" required>
-    <input type="submit">
-  </form>
-</div>
 
-<h2>回した履歴</h2>
-<div>
-  <table>
-    <tr>
-      <th>title</th>
-      <th>email</th>
-      <th>created at</th>
-    </tr>
-    <% @gachas.each do |gacha| %>
-      <tr>
-        <td><a href="<%= gacha.result %>" target="_blank"><%= gacha.title %></a></td>
-        <td><%= gacha.user.email %></td>
-        <td><%= gacha.created_at.localtime("+09:00").strftime("%F %R") %></td>
-      </tr>
-    <% end %>
-  </table>
+<h2 class="text-center text-gray-600 text-3xl font-bold p-4">回した履歴</h2>
+<div class="flex flex-col">
+  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="overflow-hidden">
+        <table class="min-w-full">
+          <thead class="border-b">
+            <tr>
+              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                Title
+              </th>
+              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                Email
+              </th>
+              <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                Created at
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @gachas.each do |gacha| %>
+              <tr class="bg-white border-b">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <a href="<%= gacha.result %>" target="_blank"><%= gacha.title %></a>
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  <%= gacha.user.email %>
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  <%= gacha.created_at.localtime("+09:00").strftime("%F %R") %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
