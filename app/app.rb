@@ -2,10 +2,11 @@ module ZoomGacha
   class App < Padrino::Application
     register SassInitializer
     use ConnectionPoolManagement
-    use PostCSS
     register Padrino::Mailer
     register Padrino::Helpers
     enable :sessions
+
+    use PostCSS if Padrino.env == :development
 
     use OmniAuth::Builder do
       provider :google_oauth2,
