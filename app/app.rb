@@ -26,6 +26,7 @@ module ZoomGacha
       if Padrino.env == :development || session[:email]
         @email = session[:email] || 'test'
         @gachas = Gacha.all.order(created_at: :desc).includes(:user).limit(20)
+        @recent_meetings = Meeting.all.order(updated_at: :desc).limit(10)
         @csrf_token = Rack::Protection::AuthenticityToken.token(env['rack.session'])
         render 'index'
       else

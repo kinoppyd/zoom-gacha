@@ -9,6 +9,19 @@
       <input type="submit" value="ガチャを回す" class=" px-6 py-2.5 bg-blue-700 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
     </form>
   </div>
+
+  <div class="bg-gray-400 flex">
+    <div class="flex overflow-x-scroll p-2">
+      <div class="inline-block rounded-full text-gray-600 bg-gray-100 px-2 py-1 text-xs font-bold">Recent meetings</div>
+      <% @recent_meetings.each do |mt| %>
+        <form action="/gacha" method="post" class="m-0 px-2">
+          <input type="hidden" name="authenticity_token" value="<%= @csrf_token %>" />
+          <input type="hidden" name="meeting_id" value="<%= mt.meeting_id %>">
+          <input type="submit" value="<%= mt.name %>" class="inline-block rounded-full text-gray-600 bg-gray-100 px-2 py-1 text-xs font-bold cursor-pointer">
+        </form>
+      <% end %>
+    </div>
+  </div>
 </div>
 
 
