@@ -40,3 +40,5 @@ gem "zoom_rb"
 gem "faraday"
 gem "faraday_middleware"
 gem 'omniauth-google-oauth2'
+
+gem "listen", "~> 3.7"

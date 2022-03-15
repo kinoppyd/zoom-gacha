@@ -2,6 +2,7 @@ module ZoomGacha
   class App < Padrino::Application
     register SassInitializer
     use ConnectionPoolManagement
+    use PostCSS
     register Padrino::Mailer
     register Padrino::Helpers
     enable :sessions
