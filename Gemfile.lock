@@ -44,6 +44,9 @@ GEM
       concurrent-ruby (~> 1.0)
     json (2.6.1)
     jwt (2.3.0)
+    listen (3.7.1)
+      rb-fsevent (~> 0.10, >= 0.10.3)
+      rb-inotify (~> 0.9, >= 0.9.10)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     mime-types (3.3.1)
@@ -157,6 +160,7 @@ DEPENDENCIES
   activerecord (>= 3.1)
   faraday
   faraday_middleware
+  listen (~> 3.7)
   omniauth-google-oauth2
   padrino (= 0.15.1)
   pg
