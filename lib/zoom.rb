@@ -52,7 +52,7 @@ class HeadlessGachaClient
 
     ascii_items = items.map { |item| Helper.only_ascii(item) }
 
-    query = "http://headless-gacha.kinoppyd.dev/?items=#{ascii_items.join(",")}"
+    query = "https://headless-gacha.kinoppyd.dev/?items=#{ascii_items.join(",")}"
     conn.get(query)
   end
 
