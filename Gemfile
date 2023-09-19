@@ -14,16 +14,16 @@ source 'https://rubygems.org'
 # gem 'oj'
 
 # Project requirements
-gem 'rake'
+gem 'rake', '~> 13'
 
 # Component requirements
-gem 'sass'
-gem 'activerecord', '>= 3.1', :require => 'active_record'
-gem 'pg'
+gem 'sass', '~> 3.7'
+gem 'activerecord', '~> 6', :require => 'active_record'
+gem 'pg', '~> 1.2'
 
 # Test requirements
-gem 'rspec', :group => 'test'
-gem 'rack-test', :require => 'rack/test', :group => 'test'
+gem 'rspec', '~> 3.10', :group => 'test'
+gem 'rack-test', '~> 1.1', :require => 'rack/test', :group => 'test'
 
 # Padrino Stable Gem
 gem 'padrino', '0.15.1'
@@ -36,9 +36,10 @@ gem 'padrino', '0.15.1'
 #   gem 'padrino-' + g, '0.15.1'
 # end
 
-gem "zoom_rb"
-gem "faraday"
-gem "faraday_middleware"
-gem 'omniauth-google-oauth2'
+gem "zoom_rb", '~> 1.1'
+gem "faraday", '~> 1.8'
+gem "faraday_middleware", '~> 1.2'
+gem 'omniauth-google-oauth2', '~> 1'
 
 gem "listen", "~> 3.7"
+gem 'thin', '~> 1.8'
