@@ -42,3 +42,4 @@ gem "faraday_middleware", '~> 1.2'
 gem 'omniauth-google-oauth2', '~> 1'
 
 gem "listen", "~> 3.7"
+gem 'thin', '~> 1.8'
