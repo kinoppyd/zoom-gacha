@@ -2,7 +2,12 @@ class ZoomClient
   require 'zoom_rb'
 
   def initialize
-    @client = Zoom::Client::ServerToServerOAuth.new(access_token: ENV.fetch('ZOOM_S2S_OAUTHACCESS_TOKEN'))
+    account_id = ENV.fetch('ZOOM_S2S_ACCOUNT_ID')
+    client_id = ENV.fetch('ZOOM_S2S_CLIENT_ID')
+    client_secret = ENV.fetch('ZOOM_S2S_CLIENT_SECRET')
+    @client = Zoom::Client::ServerToServerOAuth.new(account_id:, clinet_id:, client_secret:)
+    @client.auth
+    nil
   end
 
   def meeting_name(meeting_id)
