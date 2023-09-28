@@ -5,7 +5,7 @@ class ZoomClient
     account_id = ENV.fetch('ZOOM_S2S_ACCOUNT_ID')
     client_id = ENV.fetch('ZOOM_S2S_CLIENT_ID')
     client_secret = ENV.fetch('ZOOM_S2S_CLIENT_SECRET')
-    @client = Zoom::Client::ServerToServerOAuth.new(account_id:, clinet_id:, client_secret:)
+    @client = Zoom::Client::ServerToServerOAuth.new(account_id: account_id, client_id: client_id, client_secret: client_secret)
     @client.auth
     nil
   end
